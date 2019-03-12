@@ -1,7 +1,7 @@
-x% NACA 4 digit airfoil camber/
+% NACA 4 digit airfoil camber/
 % MPXX
-M=double(4);
-P=double(6);
+M=double(2);
+P=double(4);
 XX=12;
 M=(M/100);
 P=(P/10);
@@ -56,6 +56,8 @@ for i=1:1:numberOfPoints
     % cca(i,2) = cca(i,2)*(-1);
 end
 
+%xyzU = [ones(numberOfZPoints, 1) ones(numberOfZPoints, 1) xyZls];
+%xyzL = [ones(numberOfZPoints, 1) ones(numberOfZPoints, 1) xyZls];
 figure(1)
 hold on
 plot(cca(1:numberOfPoints,1), cca(1:numberOfPoints,2), 'r')
@@ -74,9 +76,20 @@ xyZls = linspace(-5,5,numberOfPoints);
 figure(2)
 for j=1:1:numberOfPoints
     for i=1:1:numberOfPoints
+        
         plot3(xyZls(j), xyU(i,1), xyU(i,2),'.', 'Color', [0 1 0])
         plot3(xyZls(j), xyL(i,1), xyL(i,2),'.', 'Color', [1 0 0])
         hold on
+        
+        %plot3(xyU(i,1), xyU(i,2), xyZls(j),'.')
+        %plot3(xyL(i,1), xyL(i,2), xyZls(j),'.')
+        %hold on
+        %plot3(xyU(i,1), xyU(i,2), xyZls(j),'.')
+        %plot3(xyL(i,1), xyL(i,2), xyZls(j),'.')
+        %hold on
+        %plot3(xyU(i,1), xyU(i,2), xyZls(j),'.')
+        %plot3(xyL(i,1), xyL(i,2), xyZls(j),'.')
+        %hold on
     end
 end
 
@@ -92,19 +105,22 @@ ax.GridColor=[1, 1, 0];
 
 figure(3)
 grid on
-
-[fxU,fzU] = meshgrid(xyU(1:numberOfPoints,1)',xyZls(1:numberOfPoints));
-[fxL,fzL] = meshgrid(xyL(1:numberOfPoints,1)',xyZls(1:numberOfPoints));
-
+% [fx,fy] = meshgrid(xyU(1:numberOfPoints,1)',xyU(1:numberOfPoints,2)');
+[fxU,fzU] = meshgrid(1:numberOfPoints,xyZls(1:numberOfPoints));
+[fxL,fzL] = meshgrid(1:numberOfPoints,xyZls(1:numberOfPoints));
+%fy=zeros(numberOfPoints,numberOfPoints);
+% fz=zeros(15,15);
+%fx=repmat(xyU(1:numberOfPoints,1)',numberOfPoints,1);
 fyU=repmat(xyU(1:numberOfPoints,2)',numberOfPoints,1);
 fyL=repmat(xyL(1:numberOfPoints,2)',numberOfPoints,1);
-
-tri = delaunay(fzU,fxU);trimesh(tri,fzU,fxU,fyU) 
+%fz=repmat(xyZls,numberOfPoints,1);
+%fz=zeros(numberOfPoints,numberOfPoints);
+tri = delaunay(fzU,fxU);trisurf(tri,fzU,fxU,fyU) 
 hold on
-tri = delaunay(fzL,fxL);trimesh(tri,fzL,fxL,fyL) 
+tri = delaunay(fzL,fxL);trisurf(tri,fzL,fxL,fyL) 
 hold on
-zlim([-.5 .5]) % y is z
-xlim([-5 5]) % z is x
+zlim([0 1])
+xlim([-.5 .5])
 xlabel('x')
 ylabel('y')
 zlabel('z')
