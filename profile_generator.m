@@ -1,4 +1,4 @@
-x% NACA 4 digit airfoil camber/
+% NACA 4 digit airfoil camber/
 % MPXX
 M=double(4);
 P=double(6);
@@ -56,6 +56,7 @@ for i=1:1:numberOfPoints
     % cca(i,2) = cca(i,2)*(-1);
 end
 
+% plotting 2d profile
 figure(1)
 hold on
 plot(cca(1:numberOfPoints,1), cca(1:numberOfPoints,2), 'r')
@@ -69,17 +70,17 @@ ax.GridColor=[1, 1, 0];
 xlim([0 1])
 ylim([-.5 .5])
 
+% plotting profile in 3d with points
 xyZls = linspace(-5,5,numberOfPoints);
-
 figure(2)
 for j=1:1:numberOfPoints
     for i=1:1:numberOfPoints
+        % plot3 is xyz, I put in coordinates in different order, zxy
         plot3(xyZls(j), xyU(i,1), xyU(i,2),'.', 'Color', [0 1 0])
         plot3(xyZls(j), xyL(i,1), xyL(i,2),'.', 'Color', [1 0 0])
         hold on
     end
 end
-
 
 grid on
 ylim([0 1])
@@ -88,8 +89,10 @@ xlim([-5 5])
 set(gca,'Color','k')
 ax=gca;
 ax.GridColor=[1, 1, 0];
+yt = get(gca, 'YTick');
+set(gca, 'Ydir', 'reverse')
 
-
+% plotting profile in 3d with trimesh
 figure(3)
 grid on
 
@@ -99,12 +102,15 @@ grid on
 fyU=repmat(xyU(1:numberOfPoints,2)',numberOfPoints,1);
 fyL=repmat(xyL(1:numberOfPoints,2)',numberOfPoints,1);
 
+% trimes is xyz, I put in coordinates in different order, zxy
 tri = delaunay(fzU,fxU);trimesh(tri,fzU,fxU,fyU) 
 hold on
 tri = delaunay(fzL,fxL);trimesh(tri,fzL,fxL,fyL) 
 hold on
 zlim([-.5 .5]) % y is z
 xlim([-5 5]) % z is x
-xlabel('x')
-ylabel('y')
-zlabel('z')
+xlabel('Z')
+ylabel('X')
+zlabel('Y')
+yt = get(gca, 'YTick');
+set(gca, 'Ydir', 'reverse')
