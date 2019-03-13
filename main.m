@@ -7,7 +7,7 @@ M=(M/100);
 P=(P/10);
 
 % number of points the space is divided for the modeling
-numberOfPoints=51;
+numberOfPoints=31;
 
 %populating x values from 1 to 1000 ca~camber array
 x=linspace(0,1,numberOfPoints)';
@@ -58,6 +58,7 @@ end
 
 % plotting 2d profile
 figure(1)
+clf
 hold on
 plot(cca(1:numberOfPoints,1), cca(1:numberOfPoints,2), 'r')
 plot(xyU(1:numberOfPoints,1), xyU(1:numberOfPoints,2), 'g')
@@ -71,8 +72,10 @@ xlim([0 1])
 ylim([-.5 .5])
 
 % plotting profile in 3d with points
-xyZls = linspace(-5,5,numberOfPoints);
+wing_length = 10;
+xyZls = linspace(0,wing_length,numberOfPoints);
 figure(2)
+clf
 for j=1:1:numberOfPoints
     for i=1:1:numberOfPoints
         % plot3 is xyz, I put in coordinates in different order, zxy
@@ -85,7 +88,7 @@ end
 grid on
 ylim([0 1])
 zlim([-.5 .5])
-xlim([-5 5])
+xlim([0 wing_length])
 set(gca,'Color','k')
 ax=gca;
 ax.GridColor=[1, 1, 0];
@@ -94,6 +97,7 @@ set(gca, 'Ydir', 'reverse')
 
 % plotting profile in 3d with trimesh
 figure(3)
+clf
 grid on
 
 [fxU,fzU] = meshgrid(xyU(1:numberOfPoints,1)',xyZls(1:numberOfPoints));
@@ -108,9 +112,76 @@ hold on
 tri = delaunay(fzL,fxL);trimesh(tri,fzL,fxL,fyL) 
 hold on
 zlim([-.5 .5]) % y is z
-xlim([-5 5]) % z is x
+xlim([0 wing_length]) % z is x
 xlabel('Z')
 ylabel('X')
 zlabel('Y')
+yt = get(gca, 'YTick');
+set(gca, 'Ydir', 'reverse')
+
+% edgeFront and edgeBack is 
+% edgeFront(i,1)-> z; edgeFront(i,2)-> x
+[edgeFront,edgeBack] = edges_of_wing(numberOfPoints, wing_length, P);
+figure(4)
+clf
+plot(xyZls(1:numberOfPoints), edgeFront(1:numberOfPoints));
+hold on
+plot(xyZls(1:numberOfPoints), edgeBack(1:numberOfPoints));
+ylim([0 2])
+grid on
+figure(5)
+clf
+xyutemp=xyU;
+xyltemp=xyL;
+for j=1:1:numberOfPoints
+    for i=1:1:numberOfPoints
+        % If xyL<P 
+        if(xyU(i,1)<P)
+            
+            if(xyU(i,1)>0)
+                xyutemp(i,1) = ((xyU(i,1) - (1-(xyU(i,1)/P))*edgeFront(j))*P) ;
+            else
+                xyutemp(i,1) = ((xyU(i,1) - edgeFront(j))*P);
+            end
+        else
+            if(xyU(i,1)>0)
+                xyutemp(i,1) = ((xyU(i,1) + (1-(xyU(i,1)/P))*edgeBack(j))*P);
+            else
+                xyutemp(i,1) = (((xyU(i,1) + edgeBack(j)))*P);
+            end
+        end
+        
+        % If xyL<P 
+        if(xyL(i,1)<P)
+            if(xyL(i,1)>0)
+                xyltemp(i,1) = ((xyL(i,1) - (1-(xyL(i,1)/P))*edgeFront(j))*P);
+            else
+                xyltemp(i,1) = ((xyL(i,1) - edgeFront(j))*P);
+            end
+            
+        else
+            if(xyU(i,1)>0)
+                xyltemp(i,1) = ((((xyL(i,1) + (1-(xyL(i,1)/P))*edgeBack(j))))*P);
+            else
+                xyltemp(i,1) = ((xyL(i,1) + edgeBack(j))*P);
+            end
+        end
+        
+        xyutemp(i,1) = (xyutemp(i,1)/P/2)+.5;
+        xyltemp(i,1) = (xyltemp(i,1)/P/2)+.5;
+        
+        plot3(xyZls(j), xyutemp(i,1), xyutemp(i,2),'.', 'Color', [0 1 0])
+        hold on
+        plot3(xyZls(j), xyltemp(i,1), xyltemp(i,2),'.', 'Color', [1 0 0])
+        hold on
+    end
+end
+grid on
+ylim([0 1])
+zlim([-.5 .5])
+xlim([0 wing_length])
+set(gca,'Color','k')
+ax=gca;
+ax.GridColor=[1, 1, 0];
 yt = get(gca, 'YTick');
 set(gca, 'Ydir', 'reverse')
