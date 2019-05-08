@@ -19,14 +19,14 @@ initWithZeros = zeros(numberOfPoints, 1);
 % plotting profile in 3d with points
 wing_length = 10;
 zValues = linspace(0,wing_length,numberOfPoints);
-%plot_3d_profile_points(zValues,wing_length,xyUpper,xyLower,numberOfPoints)
+% plot_3d_profile_points(zValues,wing_length,xyUpper,xyLower,numberOfPoints)
 
 % plotting profile in 3d with trimesh
 % plot_3d_profile_mesh(zValues,wing_length,xyUpper,xyLower,numberOfPoints)
 
 % edgeFrontX and edgeBackX is one dimensional, contains X values for wing
 % curve
-[edgeFrontX,edgeBackX] = calculate_edges_of_wing(numberOfPoints, wing_length, P);
+[edgeFrontX,edgeBackX] = calculate_edges_of_wing(numberOfPoints, wing_length, P, .5);
 
 % plot_edges_of_wing(zValues, edgeFrontX, edgeBackX, numberOfPoints)
 [xyUpperCurved, xyLowerCurved] = calculate_3d_wing_edged(zValues,xyUpper,xyLower,edgeFrontX,edgeBackX,P,wing_length,numberOfPoints);

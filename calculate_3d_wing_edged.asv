@@ -7,14 +7,21 @@ function [xyUpperCurved, xyLowerCurved] = calculate_3d_wing_edged(zValues,xyUppe
     for j=1:1:numberOfPoints
         for i=1:1:numberOfPoints
             if(xyUpper(i,1)<.5)
-                xyUpperTemp(i,1) = -(xyUpper(i,1) + (1-(xyUpper(i,1)/.5))*edgeBackX(j)) + 1;
+                xyUpperTemp(i,1) = .5 + (xyUpper(i,1) + (1-(xyUpper(i,1)/.5))*edgeBackX(j));
             else
-                xyUpperTemp(i,1) = ((xyUpper(i,1) + (1-(xyUpper(i,1)/.5))*edgeFrontX(j)));
+                if(xyUpper(i,1)>0)
+                    xyUpperTemp(i,1) = ((xyUpper(i,1) + (1-(xyUpper(i,1)/.5))*edgeFrontX(j)));
+                else
+                    xyUpperTemp(i,1) = (((xyUpper(i,1) + edgeFrontX(j))));
+                end
             end
             if(xyLower(i,1)<.5)
-                xyLowerTemp(i,1) = -(xyLower(i,1) + (1-(xyLower(i,1)/.5))*edgeBackX(j)) + 1;
             else
-                xyLowerTemp(i,1) = ((xyLower(i,1) + (1-(xyLower(i,1)/.5))*edgeFrontX(j)));
+                if(xyLower(i,1)>0)
+                    xyLowerTemp(i,1) = ((((xyLower(i,1) + (1-(xyLower(i,1)/.5))*edgeFrontX(j)))));
+                else
+                    xyLowerTemp(i,1) = ((xyLower(i,1) + edgeFrontX(j)));
+                end
             end
             xyUpperCurved(j,i,1) = xyUpperTemp(i,1);
             xyUpperCurved(j,i,2) = xyUpperTemp(i,2);

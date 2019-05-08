@@ -35,11 +35,11 @@ function [xyUpper, xyLower, xyCamber] = calculate_2d_profile(M, P, XX, numberOfP
         % yUpper=yc+yt*cos(phi) and yLower=yt-yt*cos(phi)
         xyUpper(i,1)=xi-yHalfThickness(i)*sin(phi(i)); xyUpper(i,2)=yCamberi+yHalfThickness(i)*cos(phi(i));
         xyLower(i,1)=xi+yHalfThickness(i)*sin(phi(i)); xyLower(i,2)=yCamberi-yHalfThickness(i)*cos(phi(i));
+    end
 
         % inverting the y values because we are generating a spoiler
         % xyU(i,2) = xyU(i,2)*(-1);
         % xyL(i,2) = xyL(i,2)*(-1);
         % cca(i,2) = cca(i,2)*(-1);
-    end
 end
 

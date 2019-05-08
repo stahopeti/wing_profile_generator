@@ -2,12 +2,11 @@ function [] = plot_3d_wing_edged(zValues,xyUpperCurved,xyLowerCurved,wing_length
     figure(5)
     clf
     
+    hold on
     for j=1:1:numberOfPoints
         for i=1:1:numberOfPoints
             plot3(zValues(j), xyUpperCurved(j,i,1), xyUpperCurved(j,i,2),'.', 'Color', [0 1 0])
-            hold on
             plot3(zValues(j), xyLowerCurved(j,i,1), xyLowerCurved(j,i,2),'.', 'Color', [1 0 0])
-            hold on
         end
     end
     
@@ -19,5 +18,7 @@ function [] = plot_3d_wing_edged(zValues,xyUpperCurved,xyLowerCurved,wing_length
     ax=gca;
     ax.GridColor=[1, 1, 0];
     set(gca, 'Ydir', 'reverse')
+    set(gca, 'Xdir', 'reverse')
+    view(gca, 3)
 end
 
