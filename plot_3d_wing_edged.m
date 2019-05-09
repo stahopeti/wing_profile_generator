@@ -18,7 +18,9 @@ function [] = plot_3d_wing_edged(zValues,xyUpperCurved,xyLowerCurved,wing_length
     ax=gca;
     ax.GridColor=[1, 1, 0];
     set(gca, 'Ydir', 'reverse')
-    set(gca, 'Xdir', 'reverse')
-    view(gca, 3)
+    xlabel('Z')
+    ylabel('X')
+    zlabel('Y')
+    % view(gca, 3)
 end
 

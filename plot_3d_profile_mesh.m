@@ -19,6 +19,7 @@ function [] = plot_3d_profile_mesh(zValues,wing_length,xyUpper,xyLower,numberOfP
     xlabel('Z')
     ylabel('X')
     zlabel('Y')
+    ax=gca;
     set(gca, 'Ydir', 'reverse')
 end
 

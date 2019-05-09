@@ -5,7 +5,6 @@
 % zValues,xyUpper,xyLower,edgeFrontX,edgeBackX,P,wing_length,numberOfPoints
 function [edgeFront, edgeBack] = calculate_edges_of_wing(numberOfPoints, wing_length, P, startEndProportions)
     halfOfStartEndDiff = (1 - startEndProportions)/2;
-
     xpoints = linspace(0,wing_length,numberOfPoints);
     edgeFront = zeros(numberOfPoints,1);
     edgeBack = zeros(numberOfPoints,1);

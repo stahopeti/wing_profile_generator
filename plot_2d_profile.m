@@ -9,6 +9,8 @@ function [] = plot_2d_profile(xyCamber,xyUpper, xyLower, numberOfPoints)
     grid on
     set(gca,'Color','k')
     ax=gca;
+    xlabel('X')
+    ylabel('Y')
     ax.GridColor=[1, 1, 0];
     xlim([0 1])
     ylim([-.5 .5])

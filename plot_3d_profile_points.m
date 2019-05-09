@@ -18,5 +18,8 @@ function [] = plot_3d_profile_points(zValues,wing_length,xyUpper,xyLower,numberO
     ax=gca;
     ax.GridColor=[1, 1, 0];
     set(gca, 'Ydir', 'reverse')
+    xlabel('Z')
+    ylabel('X')
+    zlabel('Y')
 end
 

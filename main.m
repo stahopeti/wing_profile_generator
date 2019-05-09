@@ -28,7 +28,8 @@ zValues = linspace(0,wing_length,numberOfPoints);
 % curve
 [edgeFrontX,edgeBackX] = calculate_edges_of_wing(numberOfPoints, wing_length, P, .5);
 
-% plot_edges_of_wing(zValues, edgeFrontX, edgeBackX, numberOfPoints)
-[xyUpperCurved, xyLowerCurved] = calculate_3d_wing_edged(zValues,xyUpper,xyLower,edgeFrontX,edgeBackX,P,wing_length,numberOfPoints);
+[xs,ys,zs] = sphere(30);
+plot_edges_of_wing(zValues, edgeFrontX, edgeBackX, numberOfPoints)
+[xyUpperCurved, xyLowerCurved] = calculate_3d_wing_edged(xyUpper,xyLower,edgeFrontX,edgeBackX,numberOfPoints);
 % [xyUpperTemp, xyLowerTemp] = calculate_3d_wing_edged(xyUpper,xyLower,edgeFrontX,edgeBackX,P,numberOfPoints);
-plot_3d_wing_edged(zValues,xyUpperCurved,xyLowerCurved,wing_length,numberOfPoints)
+% plot_3d_wing_edged(zValues,xyUpperCurved,xyLowerCurved,wing_length,numberOfPoints)
